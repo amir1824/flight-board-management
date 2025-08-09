@@ -1,0 +1,53 @@
+# -------- OS / Editor --------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+.vs/
+.vscode/*.log
+.vscode/ipch/
+.vscode/
+
+bin/
+obj/
+TestResults/
+*.user
+*.suo
+*.cache/
+*.ide/
+*.nupkg
+*.snupkg
+*.tmp
+coverage/
+*.coverage
+*.coveragexml
+
+# -------- ASP.NET / Logs --------
+logs/
+*.log
+
+# -------- EF Core / SQLite --------
+# קובץ מסד הנתונים המקומי + קבצי journal
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+
+
+
+node_modules/
+dist/
+build/
+.npm/
+.pnpm-store/
+.yarn/
+.yarn/cache/
+.yarn/install-state.gz
+
+.env
+.env.*
+!.env.example

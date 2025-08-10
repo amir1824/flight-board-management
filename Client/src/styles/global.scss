@@ -1,0 +1,21 @@
+:root,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #F6F7F8;
+  font-family: 'Rubik', sans-serif;
+
+  ::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+    background-color: transparent;
+    border-radius: 1em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #868686;
+    border-radius: 1em;
+  }
+}

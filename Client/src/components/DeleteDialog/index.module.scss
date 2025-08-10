@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20em !important;
+  gap: 1em;
+}
+
+
+
+.actions {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+
+  .cancelButton {
+    background-color: #E0E0E0;
+    color: black;
+    width: 7.25em;
+
+  }
+
+  .deleteButton {
+    width: 7.25em;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 19em !important;
+  }
+}

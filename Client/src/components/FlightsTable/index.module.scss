@@ -1,0 +1,30 @@
+.tablePaper {
+  border-radius: 10px;
+  overflow: hidden; 
+}
+
+.tableContainer {
+  overflow-x: auto;
+  -ms-overflow-style: none;  
+  scrollbar-width: none;      
+}
+.tableContainer::-webkit-scrollbar { display: none; } 
+
+.pagination {
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+  overflow-x: hidden;
+
+  :global(.MuiTablePagination-toolbar) { padding: 6px 12px; }
+  :global(.MuiTablePagination-actions) { margin-right: 4px; }
+
+  @media (max-width: 600px) {
+    :global(.MuiTablePagination-selectLabel),
+    :global(.MuiTablePagination-spacer) { display: none; }
+    :global(.MuiTablePagination-toolbar) {
+      gap: 8px;
+      justify-content: space-between;
+      padding: 8px 10px;
+    }
+  }
+}

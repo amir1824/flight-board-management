@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    width: 10em;
+    border-radius: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    
+    .header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}

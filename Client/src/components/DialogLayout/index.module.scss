@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .close {
+    align-self: flex-end;
+    color: gray;
+  }
+}
+
+.subTitle {
+  align-self: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 32.5em;
+}
+
+.paper {
+  max-width: 100%;
+}
+
+
+@media (max-width: 768px) {
+  .header {
+    text-align: center;
+    align-items: center;
+  }
+
+  .closeIcon {
+    font-size: 1.25rem;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .content {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    width: 19em;
+  }
+}

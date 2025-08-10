@@ -1,12 +1,8 @@
-using Microsoft.AspNetCore.Builder;
 
-namespace FlightBoard.Api.Middleware
+namespace FlightBoard.Api.Middleware;
+
+public static class RequestLogContextMiddlewareExtensions
 {
-    public static class HttpExceptionMiddlewareExtensions
-    {
-        public static IApplicationBuilder UseHttpExceptionMiddleware(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<HttpExceptionMiddleware>();
-        }
-    }
+    public static IApplicationBuilder UseRequestLogContext(this IApplicationBuilder app)
+        => app.UseMiddleware<RequestLogContextMiddleware>();
 }

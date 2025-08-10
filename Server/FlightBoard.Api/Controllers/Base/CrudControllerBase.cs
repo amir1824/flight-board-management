@@ -16,7 +16,6 @@ public abstract class CrudControllerBase<T>(
     protected readonly ICrudDal<T> _crud = crud;
     protected readonly IUnitOfWork _uow = uow;
     protected readonly ILogger _log = logger;
-
     protected virtual Expression<Func<T, bool>> BuildFilter() => _ => true;
     protected virtual Task BeforeCreateAsync(T model, CancellationToken ct) => Task.CompletedTask;
     protected virtual Task BeforeUpdateAsync(T model, CancellationToken ct) => Task.CompletedTask;
@@ -25,12 +24,12 @@ public abstract class CrudControllerBase<T>(
     protected virtual Task AfterUpdateAsync(T entity, CancellationToken ct) => Task.CompletedTask;
     protected virtual Task AfterDeleteAsync(int id, CancellationToken ct) => Task.CompletedTask;
 
-
+    [NonAction]
     [HttpGet]
     public virtual async Task<IEnumerable<T>> GetAll(
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 100,
-        CancellationToken ct = default)
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 100,
+            CancellationToken ct = default)
     {
         page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 500);
@@ -49,7 +48,6 @@ public abstract class CrudControllerBase<T>(
         return entity;
     }
 
-    /// <summary>Create a new entity.</summary>
     [HttpPost]
     public virtual async Task<T> Create([FromBody] T model, CancellationToken ct = default)
     {
@@ -83,7 +81,6 @@ public abstract class CrudControllerBase<T>(
         await AfterUpdateAsync(model, ct);
     }
 
-    /// <summary>Delete an entity by ID.</summary>
     [HttpDelete("{id:int}")]
     public virtual async Task Delete(int id, CancellationToken ct = default)
     {
@@ -97,23 +94,7 @@ public abstract class CrudControllerBase<T>(
         await AfterDeleteAsync(id, ct);
     }
 
-    [HttpPost("delete-many")]
-    public virtual async Task DeleteMany([FromBody] int[] ids, CancellationToken ct = default)
-    {
-        foreach (var id in ids.Distinct())
-        {
-            var entity = await _crud.GetByIdAsync(id, ct);
-            if (entity is null) continue;
-            await BeforeDeleteAsync(entity, ct);
-            await _crud.RemoveAsync(entity, ct);
-        }
-
-        await _uow.SaveChangesAsync(ct);
-
-        foreach (var id in ids.Distinct())
-            await AfterDeleteAsync(id, ct);
-    }
-
+    [NonAction]
     [HttpGet("search")]
     public virtual Task Search(CancellationToken ct = default)
         => throw new HttpException(HttpStatusCode.NotFound, "Search is not implemented for this resource.");

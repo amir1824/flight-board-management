@@ -93,6 +93,11 @@ It is designed with **Clean Architecture** principles, **real-time updates** via
 - cd Server/FlightBoard.Tests
 - dotnet test
 
+**E2E(Cypress)**
+- cd E2E
+- pnpm i 
+- pnpm test 
+
 ---
 
 ## Final Notes
@@ -100,3 +105,11 @@ It is designed with **Clean Architecture** principles, **real-time updates** via
 
  You can run the system either manually by starting the backend and frontend separately, or via Docker Compose for a fully containerized setup. The solution also includes unit testing for core business rules, ensuring that critical logic remains reliable as the project grows.
 
+---
+
+ ## View on production on Render
+
+ On Render free instances, the filesystem is ephemeral, so any data (including SQLite files) is lost after a redeploy or restart.
+ To persist the database, you must attach a Persistent Disk and store the SQLite file there.
+ 
+ -Link : https://flightboard-client.onrender.com/

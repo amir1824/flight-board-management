@@ -1,5 +1,4 @@
 import type { FC } from "react";
-
 import type { Provider } from "./provider";
 import { QueryProvider } from "./QueryProvider";
 import { ReduxProvider } from "./ReduxProvider";

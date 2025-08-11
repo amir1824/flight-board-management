@@ -1,5 +1,4 @@
 import { useState, type FC } from "react";
-import { RecentFlightsCards } from "../../components/RecentFlights";
 import { FlightsTable } from "../../components/FlightsTable";
 import styles from "./index.module.scss";
 import { useDeleteFlight, useFlightsList } from "../../api/flightsQueries";
@@ -28,12 +27,9 @@ export const Dashboard: FC = () => {
   const handleClose = () => setOpen(false);
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
         <Typography variant="h3" fontWeight={600}>
-          Flight Dashboard
+          Flight Board
         </Typography>
-        {/* <RecentFlightsCards flights={data} /> */}
-      </div>
       {isLoading ? (
         "Loading…"
       ) : (

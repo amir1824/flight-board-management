@@ -1,4 +1,4 @@
-import { Dashboard } from "./Pages/Dashboard";
+import { Dashboard } from "./Pages/FligthBoard";
 import { AppProvider } from "./providers/AppProvider";
 
 function App() {

@@ -1,4 +1,3 @@
-// cypress/support/commands.ts
 /// <reference types="cypress" />
 
 declare global {
@@ -9,26 +8,24 @@ declare global {
         flightNumber: string;
         destination: string;
         gate: string;
-        departureTime: string; // ISO
+        departureTime: string; 
       }): Chainable<Cypress.Response<any>>;
       apiDeleteFlight(id: number): Chainable<Cypress.Response<any>>;
       fillFlightForm(f: {
         flightNumber: string;
         destination: string;
         gate: string;
-        departureTime: string; // datetime-local "YYYY-MM-DDThh:mm"
+        departureTime: string; 
       }): Chainable<void>;
     }
   }
 }
 
 Cypress.Commands.add("dataCy", (value: string) => {
-  // עם גרשיים כדי לטפל בערכים עם רווחים
   return cy.get(`[data-cy="${value}"]`);
 });
 
 Cypress.Commands.add("apiCreateFlight", (f) => {
-  // API רץ על 8080 (docker-compose)
   return cy.request("POST", "http://localhost:8080/api/Flights", f);
 });
 

@@ -19,6 +19,6 @@ export const deleteFlightById = (id: number) =>
 export const lastFlightsUrl = () =>
   cy.get<Interception[]>("@flights.all").then((calls) => {
     expect(calls.length, "at least one flights call").to.be.greaterThan(0);
-    const last = calls[calls.length - 1]; // בלי .at כדי לא להסתבך עם ES5
+    const last = calls[calls.length - 1];
     return new URL(last.request.url, window.location.origin);
   });

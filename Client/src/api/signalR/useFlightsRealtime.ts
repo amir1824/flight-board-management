@@ -20,6 +20,13 @@ type FlightDto = {
   updatedAt?: string;
 };
 
+  interface Window {
+    __signalr?: {
+      connected?: boolean;
+      lastAdded?: FlightModel;
+    };
+  }
+
 const mapFlight = (f: FlightDto): FlightModel => {
   const base = {
     id: f.id,
@@ -43,18 +50,20 @@ export function useFlightsRealtime() {
   useEffect(() => {
     const connection = new HubConnectionBuilder()
       .withAutomaticReconnect()
-      .withUrl("/hubs/flights") 
+      .withUrl("/hubs/flights")
       .build();
 
     const updateCache = (fn: (arr: FlightModel[]) => FlightModel[]) => {
-      qc.setQueriesData<FlightModel[]>({ queryKey: ["flights"] }, (old) =>
-        fn(Array.isArray(old) ? old : [])
+      qc.setQueriesData<FlightModel[]>(
+        { queryKey: FLIGHTS_KEY, exact: false, type: "all" },
+        (old) => fn(Array.isArray(old) ? old : [])
       );
     };
 
     connection.on("FlightAdded", (dto: FlightDto) => {
       const flight = mapFlight(dto);
       updateCache(arr => (arr.some(f => f.id === flight.id) ? arr : [flight, ...arr]));
+      (window as any).__signalr = { ...(window as any).__signalr, lastAdded: flight };
     });
 
     connection.on("FlightUpdated", (dto: FlightDto) => {
@@ -74,7 +83,15 @@ export function useFlightsRealtime() {
       qc.invalidateQueries({ queryKey: FLIGHTS_KEY });
     });
 
-    connection.start().catch(console.error);
-    return () => { connection.stop(); };
+    (async () => {
+      try {
+        await connection.start();
+        (window as Window).__signalr = { ...(window as Window).__signalr, connected: true };
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+
+    return () => { void connection.stop(); };
   }, [qc]);
 }

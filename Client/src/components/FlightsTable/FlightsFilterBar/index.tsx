@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { TextField, MenuItem, Button, Paper, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../store/store";
-import { flightsUiActions } from "../../../store/flightsUiSlice";
+import { flightsUiActions, type FlightStatus } from "../../../store/flightsUiSlice";
 
 const statuses = ["Scheduled", "Boarding", "Departed", "Landed"];
 
@@ -56,7 +56,7 @@ export const FlightsFilterBar = ({ onAddFlight }: FlightsFilterBarProps) => {
             size="small"
             value={statusValue}
             onChange={(e) =>
-              dispatch(flightsUiActions.setStatus(e.target.value as any))
+              dispatch(flightsUiActions.setStatus(e.target.value as FlightStatus))
             }
             sx={{ minWidth: 180 }}
             data-cy="filter-status"

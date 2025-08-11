@@ -14,14 +14,12 @@ describe("Add & Delete Flight", () => {
     cy.intercept("GET", "/api/Flights*").as("getFlights");
     cy.intercept("DELETE", /\/api\/Flights\/\d+$/).as("deleteFlight");
 
-    // יצירה
     cy.dataCy("add-flight-button").click();
 
     cy.dataCy("flight-number-input").clear().type(flightNumber).blur();
     cy.dataCy("destination-input").clear().type("NYC").blur();
     cy.dataCy("gate-input").clear().type("B5").blur();
 
-    // לוקחים את מה שהטופס שם כבר בשדה ה־datetime-local ומקדמים ל+3 שעות
     cy.dataCy("departureTime-input")
       .invoke("val")
       .then((cur) => {
@@ -37,12 +35,9 @@ describe("Add & Delete Flight", () => {
     cy.dataCy("save-flight").should("not.be.disabled").click();
 
     cy.wait("@createFlight").its("response.statusCode").should("be.oneOf", [200, 201]);
-    // לוודא שהדיאלוג נסגר
     cy.dataCy("add-flight-form").should("not.exist");
-    // לבדוק הופעה בטבלה (Cypress יריץ ריטריי עד לטיימאאוט)
     cy.dataCy("flights-table").contains(flightNumber, { timeout: 10000 }).should("exist");
 
-    // מחיקה
     cy.contains('[data-cy="flights-table"] tr', flightNumber, { timeout: 10000 })
       .within(() => cy.get('[data-cy^="delete-flight-"]').click());
 

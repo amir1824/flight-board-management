@@ -1,4 +1,4 @@
-# ✈️ FlightBoard Management System
+# ✈️ FlightBoard System
 
 ![.NET](https://img.shields.io/badge/.NET%208.0-512BD4?logo=dotnet&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
@@ -55,32 +55,29 @@ It is designed with **Clean Architecture** principles, **real-time updates** via
 
 ## 🏗 Architectural Choices
 
-## Backend
+**Backend**  
 - Clean Architecture: Separation into API, DAL, Infrastructure, Business Logic, and Real-Time layers.
 - Generic CRUD: CrudControllerBase<T> + CrudEfDal<T> + UnitOfWork for rapid module creation.
 - SignalR Hub: Pushes real-time create/delete/status updates.
 - Middleware: Centralized error handling with HttpExceptionMiddleware.
 
-## Frontend
+**Frontend**  
 - Pages/Components: Modular UI (FlightBoard page + reusable components).
 - State Management: Redux Toolkit for UI state, React Query for server state.
 - Providers: AppProvider wraps Redux + React Query.
 - Hooks: Custom hooks for logic encapsulation.
 
-### Final Notes
- CRUD foundation, modular Clean Architecture layers, and real-time communication via SignalR ensures that new features can be added quickly without sacrificing code quality. The frontend’s separation into Pages, Components, and Hooks, along with unified state management (Redux Toolkit + React Query), provides a consistent and maintainable development experience.
+---
 
- You can run the system either manually by starting the backend and frontend separately, or via Docker Compose for a fully containerized setup. The solution also includes unit testing for core business rules, ensuring that critical logic remains reliable as the project grows.
-
-### ⚙️ Setup
+## ⚙️ Setup
 
 ## Manual Setup
- # Backend (Server)
+**Backend**  
  - cd Server/FlightBoard.Api
  - dotnet build
  - dotnet run
 
- # Frontend (Client)
+**Frontend**  
  - cd Client
  - pnpm install
  - pnpm dev
@@ -88,9 +85,18 @@ It is designed with **Clean Architecture** principles, **real-time updates** via
 ### Docker Setup
 - docker compose up --build 
 
-### Running Tests
+---
 
-## Backend (Server)
+## Running Tests
+
+**Backend**  
 - cd Server/FlightBoard.Tests
 - dotnet test
+
+---
+
+## Final Notes
+ CRUD foundation, modular Clean Architecture layers, and real-time communication via SignalR ensures that new features can be added quickly without sacrificing code quality. The frontend’s separation into Pages, Components, and Hooks, along with unified state management (Redux Toolkit + React Query), provides a consistent and maintainable development experience.
+
+ You can run the system either manually by starting the backend and frontend separately, or via Docker Compose for a fully containerized setup. The solution also includes unit testing for core business rules, ensuring that critical logic remains reliable as the project grows.
 

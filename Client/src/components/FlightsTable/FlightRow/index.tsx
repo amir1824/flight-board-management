@@ -94,6 +94,7 @@ export const FlightRow = memo(function FlightRow({
               color="error"
               onClick={() => onDelete?.(flight.id)}
               disabled={!onDelete || isDeleting}
+              data-cy={`delete-flight-${flight.id}`}
             >
               {isDeleting ? (
                 <CircularProgress size={18} />

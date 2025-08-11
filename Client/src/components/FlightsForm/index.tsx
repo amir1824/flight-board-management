@@ -5,8 +5,8 @@ import dayjs from "dayjs";
 import type { CreateFlightDto } from "../../store/dbModels/FlightModel";
 import { useAddFlight } from "../../api/flightsQueries";
 import { TextField, Button, Paper, Typography, Stack } from "@mui/material";
-import styles from "./index.module.scss";
 import { getApiErrorMessage } from "../../utils/apiError";
+import styles from "./index.module.scss";
 
 type CreateFlightForm = {
   flightNumber: string;
@@ -50,11 +50,7 @@ const schema: yup.ObjectSchema<CreateFlightForm> = yup.object({
   gate: yup.string().trim().max(10).optional(),
 });
 
-export default function FlightsForm({
-  onAfterSubmit,
-}: {
-  onAfterSubmit?: () => void;
-}) {
+export default function FlightsForm({ onAfterSubmit }: { onAfterSubmit?: () => void }) {
   const add = useAddFlight();
 
   const {
@@ -96,7 +92,11 @@ export default function FlightsForm({
   };
 
   return (
-    <Paper className={styles.formContainer} elevation={0}>
+    <Paper
+      className={styles.formContainer}
+      elevation={0}
+      data-cy="add-flight-form"
+    >
       <Typography variant="h6" className={styles.title}>
         Add New Flight
       </Typography>
@@ -107,6 +107,11 @@ export default function FlightsForm({
             label="Flight #"
             size="small"
             {...register("flightNumber")}
+            slotProps={{
+              htmlInput: {
+                "data-cy": "flight-number-input",
+              },
+            }}
             error={!!errors.flightNumber}
             helperText={errors.flightNumber?.message}
           />
@@ -115,6 +120,7 @@ export default function FlightsForm({
             label="Destination"
             size="small"
             {...register("destination")}
+            slotProps={{ htmlInput: { "data-cy": "destination-input" } }}
             error={!!errors.destination}
             helperText={errors.destination?.message}
           />
@@ -124,15 +130,16 @@ export default function FlightsForm({
             type="datetime-local"
             size="small"
             {...register("departure")}
+            slotProps={{ htmlInput: { "data-cy": "departureTime-input" }, inputLabel: { shrink: true } }}
             error={!!errors.departure}
             helperText={errors.departure?.message}
-            InputLabelProps={{ shrink: true }}
           />
 
           <TextField
             label="Gate"
             size="small"
             {...register("gate")}
+            slotProps={{ htmlInput: { "data-cy": "gate-input" } }}
             error={!!errors.gate}
             helperText={errors.gate?.message}
           />
@@ -141,6 +148,7 @@ export default function FlightsForm({
             type="submit"
             variant="contained"
             disabled={!isValid || isSubmitting || add.isPending}
+            data-cy="save-flight"
           >
             {add.isPending ? "Adding…" : "Add Flight"}
           </Button>

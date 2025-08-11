@@ -1,4 +1,4 @@
-import { useMutation, useQuery,keepPreviousData } from "@tanstack/react-query";
+import { useMutation, useQuery,keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import {
   addFlight,
   deleteFlight,
@@ -53,8 +53,22 @@ export function useAddFlight() {
   });
 }
 
+
 export function useDeleteFlight() {
+  const qc = useQueryClient();
+
   return useMutation({
     mutationFn: deleteFlight,
+    onMutate: async (id: number) => {
+      await qc.cancelQueries({ queryKey: ["flights"] });
+      const prev = qc.getQueriesData<FlightModel[]>({ queryKey: ["flights"] });
+      prev.forEach(([key, flights]) =>
+        qc.setQueryData(key, (flights || []).filter(f => f.id !== id))
+      );
+      return { prev };
+    },
+    onError: (_err, _id, ctx) => {
+      ctx?.prev?.forEach(([key, flights]) => qc.setQueryData(key, flights));
+    },
   });
 }

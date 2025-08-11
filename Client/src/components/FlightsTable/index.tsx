@@ -77,8 +77,7 @@ export const FlightsTable: FC<FlightsTableProps> = ({
     <>
       <Paper className={styles.tablePaper} elevation={3}>
         <FlightsFilterBar onAddFlight={onAddFlight} />
-
-        <TableContainer component="div" className={styles.tableContainer}>
+        <TableContainer component="div" className={styles.tableContainer} data-cy="flights-table">
           <Table size="medium" stickyHeader>
             <TableHead>
               <TableRow>
@@ -119,6 +118,7 @@ export const FlightsTable: FC<FlightsTableProps> = ({
                         color="text.secondary"
                         align="center"
                         sx={{ py: 3 }}
+                        data-cy="table-empty"
                       >
                         No flights to display
                       </Typography>
@@ -148,6 +148,7 @@ export const FlightsTable: FC<FlightsTableProps> = ({
           showFirstButton
           showLastButton
           className={styles.pagination}
+          data-cy="pagination"
         />
       </Paper>
 

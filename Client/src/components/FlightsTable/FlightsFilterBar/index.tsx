@@ -26,7 +26,7 @@ export const FlightsFilterBar = ({ onAddFlight }: FlightsFilterBarProps) => {
   }, [destination, dispatch]);
 
   return (
-    <Paper sx={{ p: 2, mb: 2 }} elevation={0}>
+    <Paper sx={{ p: 2, mb: 2 }} elevation={0} data-cy="filter-bar">
       <Stack
         direction={{ xs: "column", sm: "row" }}
         spacing={2}
@@ -46,6 +46,7 @@ export const FlightsFilterBar = ({ onAddFlight }: FlightsFilterBarProps) => {
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
             sx={{ minWidth: 180 }}
+            slotProps={{ htmlInput: { "data-cy": "filter-destination" } }}
           />
 
           <TextField
@@ -58,6 +59,7 @@ export const FlightsFilterBar = ({ onAddFlight }: FlightsFilterBarProps) => {
               dispatch(flightsUiActions.setStatus(e.target.value as any))
             }
             sx={{ minWidth: 180 }}
+            data-cy="filter-status"
           >
             {statuses.map((status) => (
               <MenuItem key={status} value={status}>
@@ -68,8 +70,12 @@ export const FlightsFilterBar = ({ onAddFlight }: FlightsFilterBarProps) => {
 
           <Button
             variant="outlined"
-            onClick={() => dispatch(flightsUiActions.clearFilters())}
+            onClick={() => {
+              dispatch(flightsUiActions.clearFilters())
+              setDestination("");
+            }}
             sx={{ minWidth: 120 }}
+            data-cy="clear-filters"
           >
             Clear
           </Button>
@@ -79,6 +85,7 @@ export const FlightsFilterBar = ({ onAddFlight }: FlightsFilterBarProps) => {
           sx={{ minWidth: 120 }}
           variant="contained"
           color="primary"
+          data-cy="add-flight-button"
           onClick={onAddFlight}
         >
           Add Flight

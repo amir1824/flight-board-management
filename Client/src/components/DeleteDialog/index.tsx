@@ -28,6 +28,7 @@ export const DeleteDialog: FC<DeleteDialogProps> = ({
     <DialogLayout
       open={isOpen}
       onClose={onClose}
+      dataCy="delete-dialog"
       title={title}
       subTitle={`Are you sure you want to delete flight ${flightNumber}?`}
     >
@@ -37,6 +38,7 @@ export const DeleteDialog: FC<DeleteDialogProps> = ({
           color="primary"
           onClick={deleteItem}
           className={styles.deleteButton}
+          data-cy="confirm-delete"
         >
           {"Yes"}
         </Button>
@@ -44,6 +46,7 @@ export const DeleteDialog: FC<DeleteDialogProps> = ({
           variant="contained"
           className={styles.cancelButton}
           onClick={onClose}
+          data-cy="cancel-delete"
         >
           {"Cancel"}
         </Button>

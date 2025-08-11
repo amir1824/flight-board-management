@@ -28,7 +28,7 @@ export const Dashboard: FC = () => {
   return (
     <div className={styles.container}>
         <Typography variant="h3" fontWeight={600}>
-          Flight Board
+          Flights Board
         </Typography>
       {isLoading ? (
         "Loading…"

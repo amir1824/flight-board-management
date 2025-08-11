@@ -1,5 +1,5 @@
 .tablePaper {
-  border-radius: 10px;
+  border-radius: 0.75em;
   overflow: hidden; 
 }
 
@@ -15,16 +15,16 @@
   background: #fff;
   overflow-x: hidden;
 
-  :global(.MuiTablePagination-toolbar) { padding: 6px 12px; }
-  :global(.MuiTablePagination-actions) { margin-right: 4px; }
+  :global(.MuiTablePagination-toolbar) { padding: 0.375em 0.75em; }
+  :global(.MuiTablePagination-actions) { margin-right: 0.25em; }
 
   @media (max-width: 600px) {
     :global(.MuiTablePagination-selectLabel),
     :global(.MuiTablePagination-spacer) { display: none; }
     :global(.MuiTablePagination-toolbar) {
-      gap: 8px;
+      gap: 0.5em;
       justify-content: space-between;
-      padding: 8px 10px;
+      padding: 0.5em 0.75em;
     }
   }
 }

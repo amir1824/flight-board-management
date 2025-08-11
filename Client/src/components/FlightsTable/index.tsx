@@ -25,7 +25,11 @@ const stickyFirstColSx = {
   backgroundColor: (t: any) => t.palette.background.paper,
   boxShadow: { xs: "2px 0 0 rgba(0,0,0,0.06)", md: "none" },
 };
-
+const stickyHeadColSx = {
+  ...stickyFirstColSx,
+  top: 0,     // שומר גם על הסטיקיות האנכית של הכותרת
+  zIndex: 4,  // גבוה יותר מהגוף כדי שלא יכוסה
+};
 export interface FlightsTableProps {
   flights: FlightModel[];
   isFetching?: boolean;
@@ -78,7 +82,7 @@ export const FlightsTable: FC<FlightsTableProps> = ({
           <Table size="medium" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell>Flight</TableCell>
+                <TableCell sx={stickyHeadColSx} >Flight</TableCell>
                 <TableCell>Destination</TableCell>
                 <TableCell>Departure</TableCell>
                 <TableCell>Gate</TableCell>

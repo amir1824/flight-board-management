@@ -2,18 +2,9 @@ import axios from "axios";
 import dayjs from "dayjs";
 import type { CreateFlightDto, FlightModel, FlightStatus } from "../store/dbModels/FlightModel";
 
-export interface Flight {
-  Id: number;
-  FlightNumber: string;
-  Destination: string;
-  DepartureTime: string; 
-  Gate: string;
-  Status: "Scheduled" | "Boarding" | "Departed" | "Landed";
-}
-
 const http = axios.create({ baseURL: "/api" });
 
-function mapFlight(f: any): FlightModel {
+function mapFlight(f: FlightModel): FlightModel {
   return {
     ...f,
     departureTime: dayjs(f.departureTime),
@@ -23,17 +14,17 @@ function mapFlight(f: any): FlightModel {
 }
 
 export async function getFlights(params?: { page?: number; pageSize?: number }) {
-  const { data } = await http.get<Flight[]>("/Flights", { params });
+  const { data } = await http.get<FlightModel[]>("/Flights", { params });
   return data.map(mapFlight);
 }
 
 export async function searchFlights(params: { status?: string; destination?: string }) {
-  const { data } = await http.get<Flight[]>("/Flights/search", { params });
+  const { data } = await http.get<FlightModel[]>("/Flights/search", { params });
   return data.map(mapFlight);
 }
 
 export async function addFlight(body: CreateFlightDto) {
-  const { data } = await http.post<Flight>("/Flights", body);
+  const { data } = await http.post<FlightModel>("/Flights", body);
   return mapFlight(data);
 }
 

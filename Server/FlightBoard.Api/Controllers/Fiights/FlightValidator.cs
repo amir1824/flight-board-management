@@ -1,25 +1,30 @@
-using FlightBoard.Api.Dal.DbModels;
 using FluentValidation;
+using FlightBoard.Api.Dal.DbModels;
+using FlightBoard.Api.Dal.Interfaces;
+
+namespace FlightBoard.Api.Features.Flights.Validation;
 
 public class FlightValidator : AbstractValidator<Flight>
 {
-    public FlightValidator()
+    public FlightValidator(IFlightDal dal)
     {
-        RuleFor(f => f.FlightNumber)
-            .NotEmpty().WithMessage("Flight number is required")
-            .MaximumLength(10)
-            .Matches("^[A-Za-z0-9]+$").WithMessage("Flight number can only contain letters and numbers");
+        RuleFor(x => x.FlightNumber)
+            .NotEmpty().WithMessage("Flight number is required.")
+            .MaximumLength(32);
 
-        RuleFor(f => f.Destination)
-            .NotEmpty().WithMessage("Destination is required")
-            .MaximumLength(100);
+        RuleFor(x => x.Destination)
+            .NotEmpty().WithMessage("Destination is required.")
+            .MaximumLength(64);
 
-        RuleFor(f => f.DepartureTime)
-            .Must(dt => dt > DateTime.UtcNow)
-            .WithMessage("Departure time must be in the future");
+        RuleFor(x => x.DepartureTime)
+            .NotEmpty().WithMessage("Departure time is required.");
 
-        RuleFor(f => f.Gate)
-            .NotEmpty().WithMessage("Gate is required")
-            .MaximumLength(5);
+        RuleFor(x => x)
+            .MustAsync(async (f, ct) =>
+                !await dal.ExistsAsync(x =>
+                    x.FlightNumber == f.FlightNumber &&
+                    x.Id != f.Id, ct))
+            .WithMessage("Flight number already exists.")
+            .WithErrorCode("Conflict");
     }
 }

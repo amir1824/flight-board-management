@@ -11,6 +11,7 @@ using FlightBoard.Api.Services.Logging.Implementations;
 using Serilog;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using FlightBoard.Api.Features.Flights.Validation;
 
 namespace FlightBoard.Api;
 
@@ -19,7 +20,6 @@ public class Startup(IConfiguration configuration, IHostEnvironment env)
     private readonly IConfiguration _config = configuration;
     private readonly IHostEnvironment _env = env;
 
-    // ----------- Service Configuration -----------
 
     public WebApplicationBuilder ConfigureServices(WebApplicationBuilder builder)
     {
@@ -34,7 +34,6 @@ public class Startup(IConfiguration configuration, IHostEnvironment env)
         return builder;
     }
 
-    // ----------- Middleware Pipeline -----------
 
     public void Configure(WebApplication app)
     {
@@ -53,14 +52,13 @@ public class Startup(IConfiguration configuration, IHostEnvironment env)
         }
 
         app.UseCors("corsapp");
-        app.UseRequestLogContext(); // מוסיף קונטקסט לוגינג
-        app.UseMiddleware<HttpExceptionMiddleware>(); // טיפול בשגיאות
+        app.UseRequestLogContext(); 
+        app.UseMiddleware<HttpExceptionMiddleware>();
         app.MapHealthChecks("/health");
         app.MapHub<FlightsHub>("/hubs/flights");
         app.MapControllers();
     }
 
-    // ----------- Private Config Methods -----------
 
     private void ConfigureCors(WebApplicationBuilder builder)
     {
@@ -95,13 +93,16 @@ public class Startup(IConfiguration configuration, IHostEnvironment env)
     }
 
     private static void ConfigureFluentValidation(WebApplicationBuilder builder)
-    {
-        builder.Services
-     .AddFluentValidationAutoValidation()
-     .AddFluentValidationClientsideAdapters()
-     .AddValidatorsFromAssemblyContaining<FlightValidator>();
+{
+    // כדי שלא נקבל 400 אוטומטי על ModelState וננהל הכל ידנית בבייס
+    builder.Services.AddControllers()
+        .ConfigureApiBehaviorOptions(o => o.SuppressModelStateInvalidFilter = true);
 
-    }
+    // טוען את כל הוולידטורים (FlightValidator וכו')
+    builder.Services.AddValidatorsFromAssemblyContaining<FlightValidator>();
+
+    // שים לב: לא קוראים ל-AddFluentValidationAutoValidation()
+}
 
     private void ConfigureSwagger(WebApplicationBuilder builder)
     {

@@ -6,6 +6,7 @@ import type { CreateFlightDto } from "../../store/dbModels/FlightModel";
 import { useAddFlight } from "../../api/flightsQueries";
 import { TextField, Button, Paper, Typography, Stack } from "@mui/material";
 import styles from "./index.module.scss";
+import { getApiErrorMessage } from "../../utils/apiError";
 
 type CreateFlightForm = {
   flightNumber: string;
@@ -15,9 +16,11 @@ type CreateFlightForm = {
 };
 
 const fmtLocal = (d = new Date()) =>
-  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}T${String(
-    d.getHours()
-  ).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+    d.getDate()
+  ).padStart(2, "0")}T${String(d.getHours()).padStart(2, "0")}:${String(
+    d.getMinutes()
+  ).padStart(2, "0")}`;
 
 const schema: yup.ObjectSchema<CreateFlightForm> = yup.object({
   flightNumber: yup
@@ -25,16 +28,33 @@ const schema: yup.ObjectSchema<CreateFlightForm> = yup.object({
     .trim()
     .required("Flight # is required")
     .matches(/^[A-Z]{1,3}\d{1,4}$/i, "e.g. LY123"),
-  destination: yup.string().trim().required("Destination is required").min(2).max(50),
+  destination: yup
+    .string()
+    .trim()
+    .required("Destination is required")
+    .min(2)
+    .max(50),
   departure: yup
     .string()
     .required("Departure time is required")
-    .test("is-valid-datetime", "Invalid date/time", (v) => !!v && dayjs(v).isValid())
-    .test("not-in-past", "Must be in the future", (v) => !!v && dayjs(v).isAfter(dayjs().subtract(1, "minute"))),
+    .test(
+      "is-valid-datetime",
+      "Invalid date/time",
+      (v) => !!v && dayjs(v).isValid()
+    )
+    .test(
+      "not-in-past",
+      "Must be in the future",
+      (v) => !!v && dayjs(v).isAfter(dayjs().subtract(1, "minute"))
+    ),
   gate: yup.string().trim().max(10).optional(),
 });
 
-export default function FlightsForm({ onAfterSubmit }: { onAfterSubmit?: () => void }) {
+export default function FlightsForm({
+  onAfterSubmit,
+}: {
+  onAfterSubmit?: () => void;
+}) {
   const add = useAddFlight();
 
   const {
@@ -49,7 +69,7 @@ export default function FlightsForm({ onAfterSubmit }: { onAfterSubmit?: () => v
       flightNumber: "",
       destination: "",
       gate: "",
-      departure: fmtLocal(new Date(Date.now() + 2 * 60 * 60 * 1000)), // +2h
+      departure: fmtLocal(new Date(Date.now() + 2 * 60 * 60 * 1000)), 
     },
   });
 
@@ -127,7 +147,7 @@ export default function FlightsForm({ onAfterSubmit }: { onAfterSubmit?: () => v
 
           {add.isError && (
             <Typography color="error" variant="body2">
-              {(add.error as any)?.message ?? "Failed to add flight"}
+              {getApiErrorMessage(add.error)}
             </Typography>
           )}
         </Stack>

@@ -46,14 +46,6 @@ export const FlightRow = memo(function FlightRow({
     }
   }, [flight.status]);
 
-  const formatDate = (date: FlightModel["departureTime"]) =>
-    new Intl.DateTimeFormat(undefined, {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date.toDate());
 
   return (
     <MotionTableRow

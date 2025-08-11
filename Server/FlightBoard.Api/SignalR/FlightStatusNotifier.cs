@@ -1,4 +1,3 @@
-// Services/FlightStatusNotifier.cs
 using FlightBoard.Api.Data;
 using FlightBoard.Api.Features.Flights;
 using FlightBoard.Api.Hubs;
@@ -17,7 +16,6 @@ public class FlightStatusNotifier : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // אפשר לשמור זיכרון אחרון שנשלח כדי לשדר רק על שינוי
         var last = new Dictionary<int, string>();
 
         while (!stoppingToken.IsCancellationRequested)
@@ -39,7 +37,7 @@ public class FlightStatusNotifier : BackgroundService
                 }
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); // או דקה
+            await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); 
         }
     }
 }

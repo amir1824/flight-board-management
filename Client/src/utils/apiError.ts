@@ -20,7 +20,6 @@ export function getApiErrorMessage(err: unknown): string {
     return msgFromBody || err.response?.statusText || err.message || "Request failed";
   }
 
-  // שגיאה מותאמת מה־fetch wrapper: { status, message }
   if (isApiErrorShape(err)) {
     return err.message || "Request failed";
   }

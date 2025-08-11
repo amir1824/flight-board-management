@@ -1,4 +1,3 @@
-// StatusChip.tsx
 import { Chip } from "@mui/material";
 export type FlightStatus = "Scheduled" | "Boarding" | "Departed" | "Landed";
 

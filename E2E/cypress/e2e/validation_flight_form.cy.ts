@@ -1,4 +1,3 @@
-// פונקציית עזר: זמן מקומי לפורמט YYYY-MM-DDTHH:mm
 const dtLocal = (minsFromNow = 0) => {
   const d = new Date(Date.now() + minsFromNow * 60_000);
   const p = (n: number) => String(n).padStart(2, "0");
@@ -15,7 +14,6 @@ it("shows client-side validation errors", () => {
   cy.dataCy("destination-input").type("x").clear().blur();
   cy.contains("Destination is required").should("exist");
 
-  // קובע תאריך עבר חוקי -> מפעיל את כלל ה"עתיד"
   cy.dataCy("departureTime-input").clear({ force: true }).type(dtLocal(-60)).blur();
   cy.contains("Must be in the future").should("exist");
 

@@ -2,10 +2,9 @@ import { uniqueFlight } from "../support/helpers";
 
 describe("Realtime updates (SignalR)", () => {
   it("shows a newly created flight without reload", () => {
-    cy.visit("/?e2e=1");                    // מפעיל מצב e2e קטן באפליקציה
+    cy.visit("/?e2e=1");                   
     cy.dataCy("flights-table").should("exist");
 
-    // חכה שהחיבור באמת מוכן
     cy.window()
       .its("__signalr.connected", { timeout: 10000 })
       .should("eq", true);
@@ -22,12 +21,10 @@ describe("Realtime updates (SignalR)", () => {
       .its("status")
       .should("be.oneOf", [200, 201]);
 
-    // וידוא שקיבלנו את האירוע (לא רק DOM)
     cy.window()
       .its("__signalr.lastAdded", { timeout: 15000 })
       .should((f: any) => expect(f?.flightNumber).to.eq(flightNumber));
 
-    // עכשיו גם ב־DOM
     cy.dataCy("flights-table")
       .contains(flightNumber, { timeout: 10000 })
       .should("exist");

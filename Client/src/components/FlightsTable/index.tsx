@@ -27,8 +27,8 @@ const stickyFirstColSx = {
 };
 const stickyHeadColSx = {
   ...stickyFirstColSx,
-  top: 0,     // שומר גם על הסטיקיות האנכית של הכותרת
-  zIndex: 4,  // גבוה יותר מהגוף כדי שלא יכוסה
+  top: 0,    
+  zIndex: 4,  
 };
 export interface FlightsTableProps {
   flights: FlightModel[];

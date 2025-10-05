@@ -11,7 +11,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> opt) : DbContext(opt)
     {
         var utc = new ValueConverter<DateTime, DateTime>(
             v => v, 
-            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // read
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); 
 
         modelBuilder.Entity<Flight>()
             .Property(f => f.DepartureTime)

@@ -94,14 +94,11 @@ public class Startup(IConfiguration configuration, IHostEnvironment env)
 
     private static void ConfigureFluentValidation(WebApplicationBuilder builder)
 {
-    // כדי שלא נקבל 400 אוטומטי על ModelState וננהל הכל ידנית בבייס
     builder.Services.AddControllers()
         .ConfigureApiBehaviorOptions(o => o.SuppressModelStateInvalidFilter = true);
 
-    // טוען את כל הוולידטורים (FlightValidator וכו')
     builder.Services.AddValidatorsFromAssemblyContaining<FlightValidator>();
 
-    // שים לב: לא קוראים ל-AddFluentValidationAutoValidation()
 }
 
     private void ConfigureSwagger(WebApplicationBuilder builder)
